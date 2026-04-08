@@ -11,8 +11,8 @@
             </div>
             <x-manga.buttons :firstChapter="$firstChapter" :slug="$manga->slug" :id="$manga->id" />
             <div class="hidden sm:flex sm:flex-col sm:gap-1 sm:text-sm">
-                <x-manga.info text="{{ __('Status') }}" :info="$manga->status()->first()->title ?? '-'" search="status={{$manga->status()->first()->slug}}" />
-                <x-manga.info text="{{ __('Type') }}" :info="$manga->types()->first()->title ?? '-'" search="type={{$manga->types()->first()->slug}}" />
+                <x-manga.info text="{{ __('Status') }}" :info="$manga->status()->first()->title ?? '-'" :search="$manga->status()->first() ? 'status=' . $manga->status()->first()->slug : null" />
+                <x-manga.info text="{{ __('Type') }}" :info="$manga->types()->first()->title ?? '-'" :search="$manga->types()->first() ? 'type=' . $manga->types()->first()->slug : null" />
                 <x-manga.info text="{{ __('Year') }}" :info="$manga->releaseDate" />
                 <x-manga.info text="{{ __('Author') }}" :info="$manga->author ?? '-'" />
                 <x-manga.info text="{{ __('Artist') }}" :info="$manga->artist ?? '-'" />

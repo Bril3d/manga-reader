@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use App\Helpers\ChapterHelper;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
-use Intervention\Image\Facades\Image;
+use Intervention\Image\Laravel\Facades\Image;
 use Illuminate\Support\Facades\Storage;
 
 class MangaController extends Controller
@@ -94,9 +94,7 @@ class MangaController extends Controller
         }
 
         $coverName = uniqid() . '.' . $extension;
-        $img = Image::make($request->file('cover'))->resize(500, null, function ($constraint) {
-            $constraint->aspectRatio();
-        })->encode($extension, settings()->get('quality'));
+        $img = Image::read($request->file('cover'))->scale(width: 500)->encodeByExtension($extension, quality: settings()->get('quality'));
 
         Storage::put('/public/covers/' . $coverName, $img);
 
@@ -149,7 +147,7 @@ class MangaController extends Controller
             }
 
             $slider_coverName = uniqid() . '.' . $extension;
-            $slider_coverImg = Image::make($request->file('slider_cover'))->encode($extension, settings()->get('quality'));
+            $slider_coverImg = Image::read($request->file('slider_cover'))->encodeByExtension($extension, quality: settings()->get('quality'));
             Storage::put('/public/slider/' . $slider_coverName, $slider_coverImg);
             Slider::create(['manga_id' => $manga->id, 'image' => $slider_coverName]);
         }
@@ -205,9 +203,7 @@ class MangaController extends Controller
             }
 
             $coverName = uniqid() . '.' . $extension;
-            $img = Image::make($request->file('cover'))->resize(500, null, function ($constraint) {
-                $constraint->aspectRatio();
-            })->encode($extension, settings()->get('quality'));
+            $img = Image::read($request->file('cover'))->scale(width: 500)->encodeByExtension($extension, quality: settings()->get('quality'));
 
             Storage::put('/public/covers/' . $coverName, $img);
             $inputFields['cover'] = $coverName;
@@ -279,7 +275,7 @@ class MangaController extends Controller
             }
 
             $slider_coverName = uniqid() . '.' . $extension;
-            $slider_coverImg = Image::make($request->file('slider_cover'))->encode($extension, settings()->get('quality'));
+            $slider_coverImg = Image::read($request->file('slider_cover'))->encodeByExtension($extension, quality: settings()->get('quality'));
             Storage::put('/public/slider/' . $slider_coverName, $slider_coverImg);
             Slider::create(['manga_id' => $manga->id, 'image' => $slider_coverName]);
         } else if ($request->slider_option == 0) {

@@ -36,7 +36,7 @@
     <div class="max-w-3xl mx-auto">
         <x-ads.main identifier="above-images-chapter" />
         @foreach ($chapter->content as $image)
-        <img class="lazyload w-full chapter-image cursor-pointer" data-src="{{ asset('storage/content/'.$manga->slug.'/'.$chapter->chapter_number.'/'.$image) }}" alt="{{ $manga->title }} - {{ $chapter->chapter_number }} - {{ $image }}" />
+        <img class="lazyload w-full chapter-image cursor-pointer" data-src="{{ str_contains($image, '/') ? asset('storage/' . $image) : asset('storage/content/'.$manga->slug.'/'.$chapter->chapter_number.'/'.$image) }}" alt="{{ $manga->title }} - {{ $chapter->chapter_number }} - {{ $image }}" />
         @endforeach
         <x-ads.main identifier="below-images-chapter" />
     </div>

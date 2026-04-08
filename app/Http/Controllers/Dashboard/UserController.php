@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
-// use Intervention\Image\Facades\Image;
+// use Intervention\Image\Laravel\Facades\Image;
 // use Illuminate\Support\Facades\Storage;
 
 

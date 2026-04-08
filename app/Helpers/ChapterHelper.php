@@ -5,7 +5,7 @@ namespace App\Helpers;
 use ZipArchive;
 use App\Models\Chapter;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
+use Intervention\Image\Laravel\Facades\Image;
 use Illuminate\Support\Facades\File;
 
 class ChapterHelper
@@ -128,14 +128,14 @@ class ChapterHelper
      * Store an image.
      *
      * @param string $imageContent
-     * @param string $imageName
      * @param string $mangaSlug
      * @param int $chapterNumber
+     * @param string $extension
      * @return string
      */
     public static function storeImage($imageContent, $mangaSlug, $chapterNumber, $extension)
     {
-        $imgData = Image::make($imageContent)->encode($extension, settings()->get('quality'));
+        $imgData = Image::read($imageContent)->encodeByExtension($extension, quality: settings()->get('quality'));
         $destinationPath = self::getChapterImagePath($mangaSlug, $chapterNumber, $extension);
         Storage::put($destinationPath, $imgData, 'public');
         return basename($destinationPath);

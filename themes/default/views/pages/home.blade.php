@@ -52,7 +52,7 @@
             <a href="{{ url('/manga/' . $manga->slug) }}" class="block">
                 <div class="relative aspect-[2/3] rounded-2xl overflow-hidden mb-4 shadow-2xl transition-all duration-500 group-hover:scale-[1.02] group-hover:shadow-neon-purple/20">
                     <img class="h-full w-full object-cover lazyload transition-all duration-500 group-hover:brightness-110" 
-                         data-src="{{  asset('storage/covers/' . $manga->cover) }}" 
+                         data-src="{{ str_starts_with($manga->cover, 'http') ? $manga->cover : (str_contains($manga->cover, '/') ? asset('storage/' . $manga->cover) : asset('storage/covers/' . $manga->cover)) }}" 
                          alt="{{ $manga->title }}" />
                     <div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent opacity-60"></div>
                 </div>
@@ -81,7 +81,7 @@
                 <figure class="relative">
                     <div class="absolute left-0 bottom-0 h-full w-full bg-gradient-to-b from-transparent to-black/50 rounded-lg hover:opacity-50 transition-all duration-200">
                     </div>
-                    <img class="h-56 sm:h-64 w-full object-cover rounded-lg lazyload shadow-md shadow-black/20 dark:shadow-none" data-src="{{ asset('storage/covers/' . $manga->cover) }}" alt="{{ $manga->title }}">
+                    <img class="h-56 sm:h-64 w-full object-cover rounded-lg lazyload shadow-md shadow-black/20 dark:shadow-none" data-src="{{ str_starts_with($manga->cover, 'http') ? $manga->cover : (str_contains($manga->cover, '/') ? asset('storage/' . $manga->cover) : asset('storage/covers/' . $manga->cover)) }}" alt="{{ $manga->title }}">
                     <div class="absolute bottom-0 p-4">
                         <p class="text-white text-opacity-60 text-xs leading-[1rem] capitalize">{{ __($manga->type) }}</p>
                         <h2 class="text-sm font-semibold text-white">{{ \Illuminate\Support\Str::limit(strip_tags($manga->title), 25, $end = '...') }}</h2>
@@ -114,7 +114,7 @@
             <a href="{{ url('/manga/' . $manga->slug) }}" class="shrink-0">
                 <div class="relative w-24 aspect-[2/3] rounded-xl overflow-hidden shadow-lg">
                     <img class="h-full w-full object-cover lazyload" 
-                         data-src="{{ asset('storage/covers/' . $manga->cover) }}" 
+                         data-src="{{ str_starts_with($manga->cover, 'http') ? $manga->cover : (str_contains($manga->cover, '/') ? asset('storage/' . $manga->cover) : asset('storage/covers/' . $manga->cover)) }}" 
                          alt="{{ $manga->title }}">
                 </div>
             </a>

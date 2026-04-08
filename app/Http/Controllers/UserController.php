@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Intervention\Image\Facades\Image;
+use Intervention\Image\Laravel\Facades\Image;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -43,12 +43,7 @@ class UserController extends Controller
 
             $image = $request->file('avatar');
             $imageName = uniqid() . '.webp';
-            $img = Image::make($image);
-            $img->resize(200, null, function ($constraint) {
-                $constraint->aspectRatio();
-            });
-
-            $imgData = $img->encode('webp', settings()->get('quality'));
+            $imgData = Image::read($image)->scale(width: 200)->encodeByExtension('webp', quality: settings()->get('quality'));
             Storage::put('/public/avatars/' . $imageName, $imgData);
 
             $user->avatar = $imageName;
