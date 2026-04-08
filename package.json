@@ -1,0 +1,35 @@
+{
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "dev:theme": "vite",
+    "build:theme": "vite build"
+  },
+  "devDependencies": {
+    "@shufo/prettier-plugin-blade": "^1.8.13",
+    "@tailwindcss/forms": "^0.5.10",
+    "autoprefixer": "^10.4.20",
+    "axios": "^1.7.9",
+    "laravel-vite-plugin": "^1.2.0",
+    "postcss": "^8.5.3",
+    "postcss-import": "^15.1.0",
+    "prettier": "^3.5.2",
+    "tailwindcss": "^3.4.17",
+    "vite": "^6.2.0"
+  },
+  "dependencies": {
+    "@toast-ui/editor": "^3.2.2",
+    "animate.css": "^4.1.1",
+    "chart.js": "^4.3.0",
+    "dropzone": "^6.0.0-beta.2",
+    "lazysizes": "^5.3.2",
+    "sortablejs": "^1.15.0",
+    "tom-select": "^2.2.2",
+    "xmlhttprequest-ssl": "^2.1.0"
+  },
+  "overrides": {
+    "dompurify": "^3.2.4"
+  }
+}

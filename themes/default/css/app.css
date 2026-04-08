@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;600;700;800;900&family=Manrope:wght@200;300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .glass {
+    @apply bg-surface-variant/60 backdrop-blur-[20px] border border-outline-variant;
+  }
+  
+  .glass-card {
+    @apply bg-surface-container-high/40 backdrop-blur-xl border border-outline-variant hover:bg-surface-container-high/60 transition-all duration-300;
+  }
+
+  .btn-neon {
+    @apply bg-gradient-to-br from-neon-purple to-neon-purple-deep text-white font-bold rounded-xl px-8 py-3 hover:scale-105 transition-transform duration-300;
+  }
+}
+
+@layer base {
+  .tab-active {
+    @apply bg-white bg-opacity-5 rounded-t-md border-b-2 border-neon-purple;
+  }
+
+  .input-main {
+    @apply bg-surface-container-lowest py-3 px-4 border border-outline-variant rounded-md w-full focus:border-neon-cyan focus:ring-1 focus:ring-neon-cyan outline-none transition-all;
+  }
+
+  .input-main-light {
+    @apply py-3 px-4 rounded-md border-black/10 w-full;
+  }
+
+  .table-action {
+    @apply text-indigo-500 hover:text-indigo-600 duration-200 transition-all;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+body:lang(ar) {
+  font-family: "IBM Plex Sans Arabic", sans-serif !important;
+}
+
+select:lang(ar) {
+  background-position: left 0.5rem center;
+}
+
+.lazyload {
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.lazyload.is-loaded {
+  opacity: 1;
+}
+
+.dark ::-ms-reveal {
+  filter: invert(100%);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: theme('colors.surface-container-low');
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: theme('colors.neon-purple');
+  border-radius: 10px;
+  border: 2px solid theme('colors.surface-container-low');
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: theme('colors.neon-purple-deep');
+}

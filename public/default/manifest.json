@@ -1,0 +1,19 @@
+{
+  "themes/default/css/app.css": {
+    "file": "assets/app-2b7a71ea.css",
+    "isEntry": true,
+    "src": "themes/default/css/app.css"
+  },
+  "themes/default/js/app.css": {
+    "file": "assets/app-2d4c25b0.css",
+    "src": "themes/default/js/app.css"
+  },
+  "themes/default/js/app.js": {
+    "css": [
+      "assets/app-2d4c25b0.css"
+    ],
+    "file": "assets/app-17b7967a.js",
+    "isEntry": true,
+    "src": "themes/default/js/app.js"
+  }
+}
