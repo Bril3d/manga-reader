@@ -1,9 +1,9 @@
 @props(['identifier'])
 @php
-$ad = \App\Models\Ad::where('identifier', $identifier)->first();
+$ad = \App\Models\Ad::where('identifier', $identifier)->where('is_active', true)->first();
 @endphp
 
-@if($ad && $ad->is_active)
+@if($ad)
 <div class="my-3 flex justify-center">
     @if($ad->type == 'script')
     {!! $ad->script !!}

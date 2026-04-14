@@ -37,7 +37,8 @@
 @endif
 
 @if($popular->count() > 0)
-<section class="mb-16">
+<x-ads.main identifier="above-popular-home" />
+<section class="mt-8 mb-16">
     <div class="flex justify-between items-end mb-8">
         <div>
             <h2 class="font-epilogue text-3xl font-bold text-on-surface mb-2">Popular Today</h2>

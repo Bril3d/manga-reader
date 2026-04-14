@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const searchLink = document.querySelector("#search-link");
   const searchLinkPhone = document.querySelector("#search-link-phone");
   const navSearch = document.querySelector("#nav-search");
+  const userMenuMobile = document.querySelector("#user-menu-mobile");
   const commentInput = document.querySelector("#comment");
   const commentCharCount = document.querySelector("#comment-char");
   const showChapters = document.querySelector("#showChapters");
@@ -68,7 +69,14 @@ document.addEventListener("DOMContentLoaded", function () {
   if (userMenuButton) {
     userMenuButton.addEventListener("click", function (e) {
       e.preventDefault();
-      userMenu?.classList.toggle("absolute");
+      userMenu?.classList.toggle("flex");
+      userMenu?.classList.toggle("hidden");
+    });
+  }
+
+  if (userMenuMobile) {
+    userMenuMobile.addEventListener("click", function (e) {
+      e.preventDefault();
       userMenu?.classList.toggle("flex");
       userMenu?.classList.toggle("hidden");
     });
@@ -203,9 +211,8 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
 
-    if (!e.target.matches("#user-menu") && !e.target.closest("#user-menu-button")) {
+    if (!e.target.matches("#user-menu") && !e.target.closest("#user-menu-button") && !e.target.closest("#user-menu-mobile")) {
       userMenu?.classList.add("hidden");
-      userMenu?.classList.remove("absolute");
       userMenu?.classList.remove("flex");
     }
   });
