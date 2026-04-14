@@ -12,16 +12,18 @@ class MangaDexService
     /**
      * Search for manga by title
      */
-    public function searchManga($title, $limit = 1)
+    public function searchManga($title, $limit = 5)
     {
-        $response = Http::withoutVerifying()->get("{$this->baseUrl}/manga", [
+        $url = "{$this->baseUrl}/manga?" . http_build_query([
             'title' => $title,
-            'limit' => $limit,
-            'includes' => ['cover_art']
+            'limit' => $limit
         ]);
+        $url .= "&includes[]=cover_art";
+
+        $response = Http::withoutVerifying()->get($url);
 
         if ($response->successful()) {
-            return $response->json()['data'];
+            return $response->json()['data'] ?? [];
         }
 
         return [];
@@ -46,14 +48,14 @@ class MangaDexService
      */
     public function getManga($mangaId)
     {
-        $response = Http::withoutVerifying()->get("{$this->baseUrl}/manga/{$mangaId}", [
-            'includes' => ['cover_art', 'author', 'artist']
-        ]);
+        $url = "{$this->baseUrl}/manga/{$mangaId}?includes[]=cover_art&includes[]=author&includes[]=artist";
+        $response = Http::withoutVerifying()->get($url);
 
         if ($response->successful()) {
             return $response->json()['data'];
         }
 
+        Log::error("MangaDex API Error (getManga) for ID {$mangaId}: " . $response->status() . " - " . $response->body());
         return null;
     }
 
@@ -62,18 +64,24 @@ class MangaDexService
      */
     public function getMangaFeed($mangaId, $limit = 10)
     {
-        $response = Http::withoutVerifying()->get("{$this->baseUrl}/manga/{$mangaId}/feed", [
+        // Using a more manual approach for array params to avoid [0] indices
+        $queryParams = [
             'limit' => $limit,
-            'translatedLanguage' => ['en'],
-            'order' => ['publishAt' => 'desc'],
-            'contentRating' => ['safe', 'suggestive', 'erotica'],
-            'includeExternalUrl' => 1
-        ]);
+            'order[publishAt]' => 'desc',
+            'includeExternalUrl' => 0
+        ];
+        
+        $url = "{$this->baseUrl}/manga/{$mangaId}/feed?" . http_build_query($queryParams);
+        $url .= "&translatedLanguage[]=en";
+        $url .= "&contentRating[]=safe&contentRating[]=suggestive&contentRating[]=erotica&contentRating[]=pornographic";
+
+        $response = Http::withoutVerifying()->get($url);
 
         if ($response->successful()) {
-            return $response->json()['data'];
+            return $response->json()['data'] ?? [];
         }
 
+        Log::error("MangaDex API Error (getMangaFeed): " . $response->status() . " - " . $response->body());
         return [];
     }
 
@@ -88,6 +96,7 @@ class MangaDexService
             return $response->json();
         }
 
+        Log::error("MangaDex API Error (getChapterPages): " . $response->status() . " - " . $response->body());
         return null;
     }
 

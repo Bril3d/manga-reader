@@ -42,32 +42,63 @@ class MangaDexSync extends Command
      */
     public function handle()
     {
-        $mangaId = $this->argument('manga_id');
+        $mangaIdOrTitle = $this->argument('manga_id');
+        $chaptersToSave = (int) $this->option('chapters');
 
-        if (!$mangaId) {
+        if (!$mangaIdOrTitle) {
             $this->info('No input provided, fetching a random manga...');
             $randomManga = $this->service->getRandomManga();
             if (!$randomManga) {
                 $this->error('Failed to fetch a random manga.');
                 return 1;
             }
-            $mangaId = $randomManga['id'];
-        } elseif (!preg_match('/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i', $mangaId)) {
-            $this->info("Searching for manga with title: {$mangaId}...");
-            $searchResults = $this->service->searchManga($mangaId);
-            if (empty($searchResults)) {
-                $this->error('No manga found with that title.');
-                return 1;
-            }
-            $mangaId = $searchResults[0]['id'];
+            $this->syncManga($randomManga['id'], $chaptersToSave);
+            return 0;
         }
 
+        if (preg_match('/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i', $mangaIdOrTitle)) {
+            $this->syncManga($mangaIdOrTitle, $chaptersToSave);
+            return 0;
+        }
+
+        $this->info("Searching for manga with title: {$mangaIdOrTitle}...");
+        $searchResults = $this->service->searchManga($mangaIdOrTitle);
+        if (empty($searchResults)) {
+            $this->error('No manga found with that title.');
+            return 1;
+        }
+
+        foreach ($searchResults as $index => $result) {
+            $title = $result['attributes']['title']['en'] ?? reset($result['attributes']['title']);
+            $this->info("Result #" . ($index + 1) . ": " . $title . " (" . $result['id'] . ")");
+            
+            // Check if it has any hosted (non-external) English chapters before committing
+            $chapters = $this->service->getMangaFeed($result['id'], 5); 
+            $hostedChapters = array_filter($chapters, function($ch) {
+                return !isset($ch['attributes']['externalUrl']) && ($ch['attributes']['pages'] ?? 0) > 0;
+            });
+
+            if (count($hostedChapters) > 0) {
+                $this->info("  Found " . count($hostedChapters) . " hosted chapters for '{$title}', starting sync...");
+                $this->syncManga($result['id'], $chaptersToSave);
+                return 0;
+            }
+            
+            $this->warn("  No downloadable English chapters found for this version, checking next...");
+        }
+
+        $this->error('No versions with English chapters found.');
+        return 1;
+    }
+
+    protected function syncManga($mangaId, $chaptersToSave)
+    {
         $this->info("Fetching data for Manga: {$mangaId}...");
         $mangaData = $this->service->getManga($mangaId);
 
         if (!$mangaData) {
             $this->error('Manga not found or API error.');
-            return 1;
+            return;
         }
 
         $attr = $mangaData['attributes'];
@@ -94,12 +125,16 @@ class MangaDexSync extends Command
         $coverUrl = $this->service->getCoverUrl($mangaData);
         if ($coverUrl) {
             $this->info('Downloading cover...');
-            $coverContent = Http::withoutVerifying()->get($coverUrl)->body();
-            $extension = pathinfo(parse_url($coverUrl, PHP_URL_PATH), PATHINFO_EXTENSION) ?: 'jpg';
-            $coverName = uniqid() . '.' . $extension;
-            $coverPath = "covers/{$coverName}";
-            Storage::disk('public')->put($coverPath, $coverContent);
-            $manga->update(['cover' => $coverName]);
+            try {
+                $coverContent = Http::withoutVerifying()->get($coverUrl)->body();
+                $extension = pathinfo(parse_url($coverUrl, PHP_URL_PATH), PATHINFO_EXTENSION) ?: 'jpg';
+                $coverName = uniqid() . '.' . $extension;
+                $coverPath = "covers/{$coverName}";
+                Storage::disk('public')->put($coverPath, $coverContent);
+                $manga->update(['cover' => $coverName]);
+            } catch (Throwable $e) {
+                $this->warn("Failed to download cover: {$e->getMessage()}");
+            }
         }
 
         // 3. Sync Tags/Genres
@@ -121,10 +156,9 @@ class MangaDexSync extends Command
         }
 
         // 4. Fetch Chapters
-        $chaptersToSave = (int) $this->option('chapters');
-        $this->info("Fetching chapters (searching for internal ones)...");
-        // We fetch more than requested to skip external ones (MangaPlus, etc)
+        $this->info("Fetching chapters...");
         $chapters = $this->service->getMangaFeed($mangaId, 100); 
+        $this->info("Found " . count($chapters) . " potential chapters.");
 
         $savedCount = 0;
         foreach ($chapters as $chapterData) {
@@ -135,13 +169,19 @@ class MangaDexSync extends Command
             $chTitle = $chAttr['title'] ?? "Chapter {$chNum}";
             $pagesCount = $chAttr['pages'] ?? 0;
 
-            if ($pagesCount == 0 || isset($chAttr['externalUrl'])) {
-                continue; // Skip silently or with low-level debug if needed
+            if (isset($chAttr['externalUrl'])) {
+                $this->line("  Skipping Chapter {$chNum} (External Link)");
+                continue;
+            }
+
+            if ($pagesCount == 0) {
+                $this->line("  Skipping Chapter {$chNum} (No pages)");
+                continue;
             }
             
             $this->info("Processing Chapter {$chNum}: {$chTitle} ({$pagesCount} pages)...");
-            $savedCount++;
 
+            // Create chapter record first to get ID if needed, though we sync by number here
             $chapter = Chapter::updateOrCreate(
                 ['manga_id' => $manga->id, 'chapter_number' => $chNum],
                 [
@@ -152,7 +192,7 @@ class MangaDexSync extends Command
 
             // 5. Download Pages
             $pageData = $this->service->getChapterPages($chapterData['id']);
-            if ($pageData) {
+            if ($pageData && isset($pageData['baseUrl'], $pageData['chapter'])) {
                 $baseUrl = $pageData['baseUrl'];
                 $hash = $pageData['chapter']['hash'];
                 $fileNames = $pageData['chapter']['data']; // Original quality
@@ -160,27 +200,33 @@ class MangaDexSync extends Command
                 $localPagePaths = [];
                 foreach ($fileNames as $index => $fileName) {
                     $pageUrl = "{$baseUrl}/data/{$hash}/{$fileName}";
-                    $imageName = ($index + 1) . ".jpg";
+                    $extension = pathinfo($fileName, PATHINFO_EXTENSION) ?: 'jpg';
+                    $imageName = ($index + 1) . "." . $extension;
                     $localPath = "content/{$slug}/{$chNum}/{$imageName}";
                     
                     if (!Storage::disk('public')->exists($localPath)) {
-                        $this->info("  Downloading page " . ($index + 1) . "/" . count($fileNames));
                         try {
-                            $pageContent = Http::withoutVerifying()->get($pageUrl)->body();
-                            Storage::disk('public')->put($localPath, $pageContent);
+                            $this->line("    Downloading page " . ($index + 1) . "...");
+                            $pageResponse = Http::timeout(30)->withoutVerifying()->get($pageUrl);
+                            if ($pageResponse->successful()) {
+                                Storage::disk('public')->put($localPath, $pageResponse->body());
+                            } else {
+                                $this->error("      Failed to download page " . ($index + 1) . ": HTTP " . $pageResponse->status());
+                            }
                         } catch (Throwable $e) {
-                            $this->error("  Failed to download page: {$e->getMessage()}");
-                            continue;
+                            $this->error("      Exception downloading page " . ($index + 1) . ": {$e->getMessage()}");
                         }
                     }
                     $localPagePaths[] = $imageName;
                 }
                 
                 $chapter->update(['content' => $localPagePaths]);
+                $savedCount++;
+            } else {
+                $this->error("  Failed to fetch page data for Chapter {$chNum}");
             }
         }
 
         $this->info('Sync completed successfully!');
-        return 0;
     }
 }
