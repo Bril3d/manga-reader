@@ -1,0 +1,11 @@
+file 'home_light.png'
+duration 2.0
+file 'home_dark.png'
+duration 2.0
+file 'manga_details.png'
+duration 2.0
+file 'manga_reader.png'
+duration 2.0
+file 'admin_dashboard.png'
+duration 2.0
+file 'admin_dashboard.png'

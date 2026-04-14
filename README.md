@@ -9,6 +9,51 @@ A high-performance, enterprise-grade Manga Management and Reading platform built
 
 ---
 
+## 🎥 Demo & Screenshots
+
+### 🎬 End-to-End Flow Demo
+Experience the core functionalities of the manga reader directly: smooth navigation, fast loading, and advanced theme switching.
+![Manga Reader Demo](docs/manga_demo.gif)
+
+### 📸 Application Interface
+
+<details>
+  <summary><b>Home Page & Sliders (Light Theme)</b></summary>
+  
+  ![Home Page Light Mode](docs/home_light.png)
+  *Dynamic homepage with recent updates, top-rated lists, and interactive manga sliders.*
+</details>
+
+<details>
+  <summary><b>System-Aware Dark Mode</b></summary>
+  
+  ![Home Page Dark Mode](docs/home_dark.png)
+  *Full support for dark mode, allowing a comfortable reading experience in low-light environments.*
+</details>
+
+<details>
+  <summary><b>Rich Manga Details</b></summary>
+  
+  ![Manga Details](docs/manga_details.png)
+  *Comprehensive manga metadata, chapter lists, bookmarking options, and rating system.*
+</details>
+
+<details>
+  <summary><b>Immersive Chapter Reader</b></summary>
+  
+  ![Chapter Reader](docs/manga_reader.png)
+  *Clean and optimized reader interface featuring responsive layouts for seamless browsing.*
+</details>
+
+<details>
+  <summary><b>Admin Dashboard & Analytics</b></summary>
+  
+  ![Admin Dashboard](docs/admin_dashboard.png)
+  *Powerful dashboard providing insights, role-based controls, and complete content lifecycle management.*
+</details>
+
+---
+
 ## 🚀 Key Features
 
 ### 📚 Content Management
