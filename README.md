@@ -84,7 +84,7 @@ Experience the core functionalities of the manga reader directly: smooth navigat
 | :--- | :--- |
 | **Backend** | Laravel 11, PHP 8.2 |
 | **Database** | MySQL / PostgreSQL |
-| **Frontend** | Blade, AlpineJS, Tailwind CSS, Vite |
+| **Frontend** | Blade, Vanilla JS, Tailwind CSS, Vite |
 | **Security** | Laravel Fortify, Sanctum, Honeypot |
 | **DevOps** | Spatie Backup, Cloudflare Ready |
 
