@@ -19,6 +19,40 @@
 }
 
 @layer base {
+  :root {
+    --surface: 251 249 255;
+    --surface-variant: 227 225 233;
+    --surface-container-low: 244 243 249;
+    --surface-container-high: 233 231 239;
+    --surface-container-highest: 227 225 233;
+    --surface-container-lowest: 255 255 255;
+    --on-surface: 26 27 32;
+    --on-surface-variant: 70 70 79;
+    --outline-variant: 199 198 207;
+  }
+
+  .dark {
+    --surface: 19 19 22;
+    --surface-variant: 28 28 31;
+    --surface-container-low: 27 27 30;
+    --surface-container-high: 42 42 45;
+    --surface-container-highest: 53 52 56;
+    --surface-container-lowest: 14 14 17;
+    --on-surface: 228 225 230;
+    --on-surface-variant: 202 195 216;
+    --outline-variant: 45 44 51;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    @apply bg-surface text-on-surface;
+  }
+
+  body {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  }
+
   .tab-active {
     @apply bg-white bg-opacity-5 rounded-t-md border-b-2 border-neon-purple;
   }
@@ -36,14 +70,7 @@
   }
 }
 
-html {
-  scroll-behavior: smooth;
-  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-}
 
-body {
-  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-}
 
 @keyframes fadeIn {
   from {

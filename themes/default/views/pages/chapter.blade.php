@@ -6,13 +6,13 @@
     <h2 class="text-lg font-bold">
         {{ __(':manga - Chapter', ['manga' => $manga->title, 'chapter' => $chapter->chapter_number]) }}
     </h2>
-    <span class="text-gray-500 text-xs">
+    <span class="text-on-surface-variant/60 text-xs">
         {{ __('All chapter are in') }}
-        <a class="text-black dark:text-gray-300 hover:text-opacity-60 duration-200 transition-all" href="{{ url('/manga/' . $manga->slug) }}">{{ $manga->title }}</a>
+        <a class="text-on-surface-variant hover:text-neon-purple duration-200 transition-all" href="{{ url('/manga/' . $manga->slug) }}">{{ $manga->title }}</a>
     </span>
-    <div class="flex flex-col gap-4 sm:flex-row bg-red-200/30 shadow-md dark:bg-zinc-900 rounded-md my-5 py-4 px-6 sm:justify-between sm:items-center w-full lg:w-4/5">
+    <div class="flex flex-col gap-4 sm:flex-row bg-surface-container-low border border-outline-variant/30 shadow-md rounded-2xl my-5 py-4 px-6 sm:justify-between sm:items-center w-full lg:w-4/5">
         <div class="flex flex-col items-start">
-            <h3 class="text-md dark:dark:text-white !text-opacity-60 font-bold hover:text-opacity-80 duration-200 transition-all">
+            <h3 class="text-md text-on-surface-variant font-bold hover:text-neon-purple duration-200 transition-all">
                 <a href="{{ url('/manga/' . $manga->slug) }}">{{ $manga->title }}</a>
             </h3>
 
@@ -41,9 +41,9 @@
         <x-ads.main identifier="below-images-chapter" />
     </div>
 
-    <div class="flex flex-col gap-4 sm:flex-row bg-red-200/30 shadow-md dark:bg-zinc-900 rounded-md my-5 py-4 px-6 sm:justify-between sm:items-center w-full lg:w-4/5">
+    <div class="flex flex-col gap-4 sm:flex-row bg-surface-container-low border border-outline-variant/30 shadow-md rounded-2xl my-5 py-4 px-6 sm:justify-between sm:items-center w-full lg:w-4/5">
         <div class="flex flex-col items-start">
-            <h3 class="text-md dark:dark:text-white !text-opacity-60 font-bold hover:text-opacity-80 duration-200 transition-all">
+            <h3 class="text-md text-on-surface-variant font-bold hover:text-neon-purple duration-200 transition-all">
                 <a href="{{ url('/manga/' . $manga->slug) }}">{{ $manga->title }}</a>
             </h3>
 

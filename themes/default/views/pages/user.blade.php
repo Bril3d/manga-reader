@@ -10,7 +10,7 @@
         <div class="flex wrap gap-10 mt-10">
             <div class="hidden lg:block lg:w-2/5">
                 <h2 class="text-lg font-bold my-3">{{ __('Personal Information') }} - ({{ auth()->user()->username }})</h2>
-                <p class="text-black dark:text-white !text-opacity-60 text-sm">{{ __('Update your username, email or your description. Remember if you changed the email you will need to reactivate the new email.') }}</p>
+                <p class="text-on-surface-variant/60 text-sm">{{ __('Update your username, email or your description. Remember if you changed the email you will need to reactivate the new email.') }}</p>
             </div>
             <div class="w-full lg:w-3/5">
                 <form action="{{ route('user-profile-information.update') }}" method="POST" class="flex flex-col gap-3" enctype="multipart/form-data">
@@ -31,12 +31,12 @@
                 </form>
             </div>
         </div>
-        <hr class="mt-10 mb-10 border-black/10 dark:border-white/10">
+        <hr class="mt-10 mb-10 border-outline-variant/30">
 
         <div class="flex wrap gap-10">
             <div class="hidden lg:block lg:w-2/5">
                 <h2 class="text-lg font-bold my-3">{{ __('Security') }}</h2>
-                <p class="text-black dark:text-white !text-opacity-60 text-sm">{{ __('Update your security information from this section!') }}</p>
+                <p class="text-on-surface-variant/60 text-sm">{{ __('Update your security information from this section!') }}</p>
             </div>
 
             <div id="update-password" class="w-full lg:w-3/5">

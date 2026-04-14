@@ -6,7 +6,7 @@
     <div class="flex flex-col sm:flex-row md:flex-row lg:flex-row gap-6">
         <div class="w-full sm:w-72 md:w-80 lg:w-96 rounded-lg flex flex-col gap-3">
             <div class="relative">
-                <div class="sm:hidden absolute -bottom-1 inset-0 bg-gradient-to-b from-transparent to-dark-primary"></div>
+                <div class="sm:hidden absolute -bottom-1 inset-0 bg-gradient-to-b from-transparent to-surface"></div>
                 <img class="object-cover object-bottom w-full h-full sm:max-h-[300px] md:max-h-[400px] rounded-lg" src="{{ asset('storage/covers/' . $manga->cover) }}" alt="{{ $manga->title }}">
             </div>
             <x-manga.buttons :firstChapter="$firstChapter" :slug="$manga->slug" :id="$manga->id" />
@@ -27,20 +27,20 @@
                 <x-share.pinterest link="https://www.pinterest.com/pin/create/button?url={{ urlencode(route('manga.show', $manga->id)) }}" />
                 <x-share.whatsapp link="whatsapp://send?text={{ urlencode(route('manga.show', $manga->id)) }}" />
             </div>
-            <h2 class="text-2xl font-bold leading-[1.5rem]">{{ $manga->title }} <span class="capitalize text-sm dark:text-white !text-opacity-50">[{{ $manga->types()->first()->title ?? '-' }}]</span></h2>
-            <span class="text-gray-700 dark:text-gray-400 block mt-1 mb-3 text-sm">{{ $manga->alternative_titles }}</span>
+            <h2 class="text-2xl font-bold leading-[1.5rem]">{{ $manga->title }} <span class="capitalize text-sm text-on-surface-variant/50">[{{ $manga->types()->first()->title ?? '-' }}]</span></h2>
+            <span class="text-on-surface-variant block mt-1 mb-3 text-sm">{{ $manga->alternative_titles }}</span>
             <x-manga.genres :genres="$manga->genres" />
 
 
-            <p class="text-gray-100 mt-3">{!! \Illuminate\Support\Str::markdown($manga->description ?? '') !!}</p>
+            <p class="text-on-surface-variant mt-3">{!! \Illuminate\Support\Str::markdown($manga->description ?? '') !!}</p>
 
             <div class="flex gap-3 mt-3">
                 <div class="flex items-center justify-center gap-1">
-                    <x-fas-eye class="dark:text-white text-black text-opacity-60 h-4 w-4" />
+                    <x-fas-eye class="text-on-surface-variant/60 h-4 w-4" />
                     <span class="text-sm font-bold">{{ $manga->views->count() }}</span>
                 </div>
                 <div class="flex items-center justify-center gap-1">
-                    <x-fas-bookmark class="dark:text-white text-black text-opacity-60 h-4 w-4" />
+                    <x-fas-bookmark class="text-on-surface-variant/60 h-4 w-4" />
                     <span class="text-sm font-bold">{{ $manga->getTotalFavorites() }}</span>
                 </div>
             </div>
@@ -49,7 +49,7 @@
                 <button id="showChapters" class="tab-active px-3 py-3">{{ __('Chapters') . " ({$chapters->count()})" }}</button>
                 <button id="showInfo" class="px-3 py-3">{{ __('Comments') }} ({{$manga->comments->count()}})</button>
             </div>
-            <hr class="h-px bg-gray-500 bg-opacity-10  border-0" />
+            <hr class="h-px bg-outline-variant/30 border-0" />
 
             <div class="block lg:flex lg:gap-5 mt-6">
                 <x-manga.chapters :chapters="$chapters" />

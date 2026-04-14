@@ -20,14 +20,14 @@
                 </h1>
                 <div class="flex flex-wrap gap-2 mb-8">
                     @foreach($manga->genres->take(3) as $genre)
-                        <span class="px-4 py-1.5 rounded-full border border-outline-variant bg-white/5 backdrop-blur-md text-xs font-semibold text-on-surface-variant">
+                        <span class="px-4 py-1.5 rounded-full border border-outline-variant glass-card text-xs font-semibold text-on-surface-variant">
                             {{ $genre->title }}
                         </span>
                     @endforeach
                 </div>
                 <div class="flex gap-4">
                     <button class="btn-neon font-epilogue">Read Now</button>
-                    <button class="px-8 py-3 rounded-xl border border-outline-variant bg-white/5 backdrop-blur-md font-epilogue font-bold text-on-surface hover:bg-white/10 transition-colors">Details</button>
+                    <button class="px-8 py-3 rounded-xl border border-outline-variant glass-card font-epilogue font-bold text-on-surface hover:bg-surface-container-high transition-colors">Details</button>
                 </div>
             </div>
         </swiper-slide>
@@ -110,7 +110,7 @@
     
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         @foreach ($chapters as $manga)
-        <div class="bg-surface-container-low rounded-3xl p-4 flex gap-4 hover:bg-surface-container-high transition-all duration-300 group">
+        <div class="bg-surface-container-low border border-outline-variant/30 rounded-3xl p-4 flex gap-4 hover:bg-surface-container-high transition-all duration-300 group">
             <a href="{{ url('/manga/' . $manga->slug) }}" class="shrink-0">
                 <div class="relative w-24 aspect-[2/3] rounded-xl overflow-hidden shadow-lg">
                     <img class="h-full w-full object-cover lazyload" 
