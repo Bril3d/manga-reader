@@ -100,7 +100,7 @@
 @endif
 
 @if($chapters->count() > 0)
-<section class="mb-16">
+<section class="my-16">
     <div class="flex justify-between items-end mb-8">
         <div>
             <h2 class="font-epilogue text-3xl font-bold text-on-surface mb-2">Recent Chapters</h2>

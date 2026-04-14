@@ -194,7 +194,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  function initializeSwiper(containerSelector, breakpoints) {
+  function initializeSwiper(containerSelector, options = {}) {
     const swiperEl = document.querySelector(containerSelector);
     if (!swiperEl) return;
 
@@ -202,7 +202,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     Object.assign(swiperEl, {
       spaceBetween: 10,
-      breakpoints,
+      ...options,
     });
 
     if (typeof swiperEl.initialize === "function") {
@@ -211,15 +211,23 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   const swipterSettings = {
-    0: { slidesPerView: 3, spaceBetween: 10 },
-    640: { slidesPerView: 4 },
-    768: { slidesPerView: 6 },
-    1200: { slidesPerView: 10 },
+    breakpoints: {
+      0: { slidesPerView: 3, spaceBetween: 10 },
+      640: { slidesPerView: 4 },
+      768: { slidesPerView: 6 },
+      1200: { slidesPerView: 10 },
+    }
   };
 
   if (sliderMangas) {
     initializeSwiper("#home-slider", {
-      0: { slidesPerView: 1, spaceBetween: 10 },
+      slidesPerView: 1,
+      spaceBetween: 10,
+      loop: true,
+      autoplay: {
+        delay: 5000,
+        disableOnInteraction: false,
+      },
     });
   }
 
@@ -235,10 +243,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (suggestedMangas) {
     initializeSwiper("#suggested-mangas", {
-      0: { slidesPerView: 3, spaceBetween: 10 },
-      640: { slidesPerView: 4 },
-      768: { slidesPerView: 6 },
-      1200: { slidesPerView: 8 },
+      breakpoints: {
+        0: { slidesPerView: 3, spaceBetween: 10 },
+        640: { slidesPerView: 4 },
+        768: { slidesPerView: 6 },
+        1200: { slidesPerView: 8 },
+      }
     });
     suggestedMangas?.classList.remove("!hidden");
   }

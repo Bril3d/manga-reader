@@ -3,7 +3,7 @@
 
     <nav class="flex justify-between py-6">
         <div class="flex gap-3">
-            <a href="{{ url('/') }}" class="py-2 font-bold">{{ settings()->get('name') }}</a>
+            <a href="{{ url('/') }}" class="py-2 font-bold text-neon-purple text-2xl">{{ settings()->get('name') }}</a>
 
             <div class="hidden sm:flex gap-1 items-center">
                 <x-navbar.nav-link link="{{ route('manga.index') }}" text="{{ __('Mangas') }}" />
