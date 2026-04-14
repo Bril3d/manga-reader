@@ -43,7 +43,7 @@ class UserController extends Controller
 
             $image = $request->file('avatar');
             $imageName = uniqid() . '.webp';
-            $imgData = Image::read($image)->scale(width: 200)->encodeByExtension('webp', quality: settings()->get('quality'));
+            $imgData = Image::read($image)->scale(width: 200)->encodeByExtension('webp', quality: (int) settings()->get('quality'));
             Storage::put('/public/avatars/' . $imageName, $imgData);
 
             $user->avatar = $imageName;

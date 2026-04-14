@@ -135,7 +135,7 @@ class ChapterHelper
      */
     public static function storeImage($imageContent, $mangaSlug, $chapterNumber, $extension)
     {
-        $imgData = Image::read($imageContent)->encodeByExtension($extension, quality: settings()->get('quality'));
+        $imgData = Image::read($imageContent)->encodeByExtension($extension, quality: (int) settings()->get('quality'));
         $destinationPath = self::getChapterImagePath($mangaSlug, $chapterNumber, $extension);
         Storage::put($destinationPath, $imgData, 'public');
         return basename($destinationPath);

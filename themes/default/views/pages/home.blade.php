@@ -44,7 +44,7 @@
             <h2 class="font-epilogue text-3xl font-bold text-on-surface mb-2">Popular Today</h2>
             <p class="text-on-surface-variant text-sm font-manrope">Most read titles in the last 24 hours</p>
         </div>
-        <a href="#" class="text-neon-purple font-manrope font-bold text-sm hover:underline">View All</a>
+        <a href="{{ url('/manga') }}" class="text-neon-purple font-manrope font-bold text-sm hover:underline">View All</a>
     </div>
 
     <swiper-container id="popular-mangas" init="false" slides-per-view="auto" space-between="24" class="pb-8">

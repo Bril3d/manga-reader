@@ -94,7 +94,7 @@ class MangaController extends Controller
         }
 
         $coverName = uniqid() . '.' . $extension;
-        $img = Image::read($request->file('cover'))->scale(width: 500)->encodeByExtension($extension, quality: settings()->get('quality'));
+        $img = Image::read($request->file('cover'))->scale(width: 500)->encodeByExtension($extension, quality: (int) settings()->get('quality'));
 
         Storage::put('/public/covers/' . $coverName, $img);
 
@@ -147,7 +147,7 @@ class MangaController extends Controller
             }
 
             $slider_coverName = uniqid() . '.' . $extension;
-            $slider_coverImg = Image::read($request->file('slider_cover'))->encodeByExtension($extension, quality: settings()->get('quality'));
+            $slider_coverImg = Image::read($request->file('slider_cover'))->encodeByExtension($extension, quality: (int) settings()->get('quality'));
             Storage::put('/public/slider/' . $slider_coverName, $slider_coverImg);
             Slider::create(['manga_id' => $manga->id, 'image' => $slider_coverName]);
         }
@@ -203,7 +203,7 @@ class MangaController extends Controller
             }
 
             $coverName = uniqid() . '.' . $extension;
-            $img = Image::read($request->file('cover'))->scale(width: 500)->encodeByExtension($extension, quality: settings()->get('quality'));
+            $img = Image::read($request->file('cover'))->scale(width: 500)->encodeByExtension($extension, quality: (int) settings()->get('quality'));
 
             Storage::put('/public/covers/' . $coverName, $img);
             $inputFields['cover'] = $coverName;
@@ -275,7 +275,7 @@ class MangaController extends Controller
             }
 
             $slider_coverName = uniqid() . '.' . $extension;
-            $slider_coverImg = Image::read($request->file('slider_cover'))->encodeByExtension($extension, quality: settings()->get('quality'));
+            $slider_coverImg = Image::read($request->file('slider_cover'))->encodeByExtension($extension, quality: (int) settings()->get('quality'));
             Storage::put('/public/slider/' . $slider_coverName, $slider_coverImg);
             Slider::create(['manga_id' => $manga->id, 'image' => $slider_coverName]);
         } else if ($request->slider_option == 0) {
