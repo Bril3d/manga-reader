@@ -54,6 +54,14 @@ The system follows a modular architecture:
 
 ---
 
+## 🆕 Recent Updates
+- **Theme System**: Converted theme variables to RGB channels for Tailwind opacity support and refactored views for project-wide light/dark mode support.
+- **Advanced Dark Mode**: Implemented advanced dark mode with system sync, smooth transitions, and dynamic icon swapping.
+- **Home Slider**: Enabled autoplay, looping, and resolved initialization and styling issues on the home page.
+- **MangaDex Integration**: Implemented MangaDex integration with automated chapter syncing and image processing utilities.
+
+---
+
 ## 🛠️ Getting Started
 
 ### Prerequisites
